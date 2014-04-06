@@ -1,0 +1,20 @@
+Create a mobile web page with the following parts:
+
+1. A big heading that contains your name
+2. A table listing university names and some photos (so that each row contains a photo and a university name)
+
+All text should be clearly readable in a mobile device.
+
+Clarification: Ideally, the table should have two columns, one for the image and one for the university name. 
+It's ok if you would prefer to put them into one column. 
+Ideally, the table will have divs with the right CSS. 
+It's ok if you would prefer to use table tags this time. 
+Ideally, the table should be clearly readable in a mobile device. 
+It's ok if you only make it visible on a laptop for now. 
+Eventually, you will need to be able to make multi-column tables for mobile using divs, 
+and this homework is a chance to learn how to do that. 
+But you can turn in your best attempt and get full credit, 
+even if you're not ready to do the ideal. 
+
+Turn in a 1-page PDF. 
+The PDF should contain a picture of your app (e.g., an emulator screenshot, or a photo of a real device) and a sentence explaining your webpage.
