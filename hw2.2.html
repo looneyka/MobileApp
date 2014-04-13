@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+  <script type='text/javascript' src='/js/lib/dummy.js'></script>
+   
+      <link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
+    
+      <script type='text/javascript' src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    
+      <script type='text/javascript' src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+    
+  <style type='text/css'>
+    
+  </style>
+  
+</head>
+<body bgcolor="#333333">
+
+  <div data-role="page" id="page1">
+    <div data-role="header">
+         <h1>Kayla Looney</h1> 
+         <h2>CS 496 - Homework 2</h2>
+
+    </div>
+    <div role="main" class="ui-content">
+        <div id="categories"></div>
+    </div>
+</div>
+
+
+<script type='text/javascript'>
+
+$(document).on("pageshow", "#page1", function () {
+
+    var items = [{
+        "name": "Oregon State University",
+            "image": "http://oregonstate.edu/osuhomepage/regions/top-hat/current/images/osu-tag.png"
+    }, {
+        "name": "University of Oregon",
+            "image": "https://uoregon.edu/sites/uoregon2.wc-www.uoregon.edu/themes/uo_homesite/logo.png"
+    }, {
+        "name": "Portland State University",
+            "image": "http://www.pdx.edu/sites/all/themes/pdx_home/logo.png"
+    }, {
+        "name": "Southern Oregon University",
+            "image": "http://www.sou.edu/templates/souhometemplate1/css/img/logo-reversed.png"
+    }];
+
+    var service_table = $('<table data-role="table"  data-mode="" class="ui-responsive table-stroke" id="service"></table>');
+
+    var service_tr_th = $("<thead><tr><th data-priority='1'>University<th>Image</th data-priority='2'></tr></thead>");
+    var service_tbody = $('<tbody></tbody>');
+
+    for (var idx = 0; idx < items.length; ++idx) {
+        var service_tr = $('<tr></tr>');
+        var service_name_td = $('<td>' + items[idx].name + '</td><td><img src="' + items[idx].image + '"</td>');
+        service_name_td.appendTo(service_tr);
+        service_tr.appendTo(service_tbody);
+    }
+
+    service_tr_th.appendTo(service_table);
+    service_tbody.appendTo(service_table);
+    service_table.appendTo($("#categories"));
+
+    service_table.table();
+
+});
+
+</script>
+</body>
+
+</html>
+
