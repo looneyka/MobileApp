@@ -1,14 +1,35 @@
 from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
 from kivy.uix.widget import Widget
-from kivy.properties import NumericProperty, ReferenceListProperty, ObjectProperty
+from kivy.properties import NumericProperty, ReferenceListProperty,\
+    ObjectProperty
 from kivy.vector import Vector
 from kivy.clock import Clock
+from parse_rest.connection import register
+from parse_rest.datatypes import Object
+from settings_local import APPLICATION_ID, REST_API_KEY
 import android
 
-class AndroidApp(App):
-	def build(self):
-		android.vibrate(3)
-		
+class GameScore(Object):
+    pass
+
+
+class ScoreView(BoxLayout):
+
+    def __init__(self, **kwargs):
+        super(ScoreView, self).__init__(**kwargs)
+        Clock.schedule_once(lambda dt: self.initialize())
+
+    def initialize(self):
+        high_to_low_score_board = GameScore.Query.all().order_by("-score")
+        count = 1
+        for game_score in high_to_low_score_board:
+            text = '{}. {}'.format(count, game_score.score)
+            label = Label(text=text)
+            self.add_widget(label)
+            count += 1
+
 class PongPaddle(Widget):
     score = NumericProperty(0)
 
@@ -53,11 +74,11 @@ class PongGame(Widget):
         #went of to a side to score point?
         if self.ball.x < self.x:
             self.player2.score += 1
-			android.vibrate(2)
+            android.vibrate(1)
             self.serve_ball(vel=(4, 0))
         if self.ball.x > self.width:
             self.player1.score += 1
-			android.vibrate(2)
+            android.vibrate(1)
             self.serve_ball(vel=(-4, 0))
 
     def on_touch_move(self, touch):
@@ -69,11 +90,22 @@ class PongGame(Widget):
 
 class PongApp(App):
     def build(self):
-        game = PongGame()
-        game.serve_ball()
-        Clock.schedule_interval(game.update, 1.0 / 60.0)
-        return game
+        register(APPLICATION_ID, REST_API_KEY)
+        android.vibrate(2)
 
+    def save(self):
+        score1 = self.root.pong_game.player1.score
+        score2 = self.root.pong_game.player2.score
+        score = max(score1, score2)
+        game_score = GameScore(score=score)
+        game_score.save()
+
+    def set_state(self, state):
+        if state == 'main_game':
+            self.root.current = 'main_game'
+            game = self.root.pong_game
+            game.serve_ball()
+            Clock.schedule_interval(game.update, 1.0 / 60.0)
 
 if __name__ == '__main__':
     PongApp().run()

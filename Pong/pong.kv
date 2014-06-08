@@ -1,5 +1,46 @@
 #:kivy 1.0.9
 
+GameScreenManager:
+
+<GameScreenManager@ScreenManager>:
+    pong_game: ponggame
+    state: 'main_menu'
+    Screen:
+        name: 'main_menu'
+        FloatLayout:
+            size: root.size
+            pos: root.pos
+            Label:
+                text: 'Welcome to Pong CS 496'
+                size_hint: (.3, .3)
+                pos_hint: {'x': .35, 'y': .65}
+            Button:
+                text: 'Play'
+                size_hint: (.2, .1)
+                pos_hint: {'x': .3, 'y': .36}
+                on_press: app.set_state('main_game')
+            Button:
+                text: 'View Daily High Score'
+                size_hint: (.2, .1)
+                pos_hint: {'x': .5, 'y': .36}
+                on_press: root.current = 'high_scores'
+    Screen:
+        name: 'main_game'
+        PongGame:
+            id: ponggame
+
+    Screen:
+        name: 'high_scores'
+        score_list: score_list
+
+        ScoreView:
+            id: score_list
+
+
+<ScoreView@BoxLayout>:
+    orientation: 'vertical'
+
+
 <PongBall>:
     size: 50, 50 
     canvas:
@@ -23,7 +64,21 @@
         Rectangle:
             pos: self.center_x-5, 0
             size: 10, self.height
-    
+
+    Button:
+        font_size: 12
+        center_x: root.width / 2
+        top: root.top - 5
+        size: (200,20)
+        text: 'Main Menu'
+        on_press: app.set_state('main_game')
+    Button:
+        font_size: 12
+        center_x: root.width / 2
+        top: root.top - 25
+        size: (200,20)
+        text: 'Save'
+        on_press: app.save()
     Label:
         font_size: 70  
         center_x: root.width / 4
